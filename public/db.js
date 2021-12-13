@@ -36,7 +36,7 @@ function saveRecord(record) {
 
 function checkDatabase() {
   // open a transaction on your pending db
-  const transaction = db.transaction(["budgetStore"], "readwrite");
+  let transaction = db.transaction(["budgetStore"], "readwrite");
 
   // access your pending object store
   const budgetStore = transaction.objectStore("budgetStore");
@@ -56,9 +56,9 @@ function checkDatabase() {
         },
       })
         .then((response) => response.json())
-        .then((res) => {
+        .then((response) => {
           // if successful, open a transaction on your pending db
-          if (res.length !== 0) {
+          if (response.length !== 0) {
             transaction = db.transaction(["budgetStore"], "readwrite");
             // access your pending object store
             const currentStore = transaction.objectStore("budgetStore");
@@ -75,3 +75,6 @@ function checkDatabase() {
 request.onerror = function (event) {
   // log error here
 };
+
+//If we are online, run the checkDatabase function.
+window.addEventListener("online", checkDatabase);
