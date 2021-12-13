@@ -22,3 +22,20 @@ request.onsuccess = function (event) {
     checkDatabase();
   }
 };
+
+//If we are offline, this function is called.
+//It saves the users single input in the indexedDB object store.
+
+function saveRecord(record) {
+  // create a transaction on the pending db with readwrite access
+  const transaction = db.transaction(["budgetDB"], "readwrite");
+  // access your pending object store
+  const budgetStore = transaction.objectStore("budgetDB");
+  // add record to your store with add method.
+  budgetStore.add(record);
+}
+
+//DO LAST
+request.onerror = function (event) {
+  // log error here
+};
